@@ -8,7 +8,7 @@ const Hero = require("../models/hero")
 router.get("/",(req,res,next) => {
     Hero.find()
     .then(heroes => {
-        res.status(200).json(heroes)
+        res.status(200).json({heroes: heroes})
     })
     .catch(err => {
         console.log(err.message);
