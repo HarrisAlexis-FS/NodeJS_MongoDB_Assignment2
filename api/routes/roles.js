@@ -5,6 +5,7 @@ require("../models/hero");
 const Messages = require("../../messages/messages")
 const mongoose = require("mongoose");
 const messages = require("../../messages/messages");
+const { response } = require("../../app/app");
 
 
 //---------------POST------------------
@@ -62,6 +63,7 @@ router.post("/",(req,res,next) => {
 
 router.get("/",(req,res,next) => {
     Role.find()
+    .select("role")
     .then(roles => {
         res.status(200).json({roles: roles})
     })
@@ -95,7 +97,6 @@ res.status(201).json({
 })
     })
 res.json({
-    role: res.role,
     id: roleId
 })
 .catch(err => {
