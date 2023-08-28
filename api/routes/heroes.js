@@ -24,14 +24,27 @@ router.get("/",(req,res,next) => {
 // ------------------POST-------------------------
 
 router.post("/",(req,res,next) => {
-   
+
+
+Hero.find({
+    name: req.body.name,
+    role: req.body.role
+})
+.exec()
+.then(result => {
+    console.log(result);
+    if(result.length > 0){
+        return res.status(406).jons({message: "Hero is alread cataloged"})
+    }
+
+
     const newHero = new Hero({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         role: req.body.role
     });
 
-//write to db
+    
     newHero.save()
     .then(result => {
         console.log(result);
@@ -57,7 +70,31 @@ router.post("/",(req,res,next) => {
         })
     })
 
+    })
+    
+    .catch(err => {
+        console.error(err);
+            res.status(500).json({
+                error:{
+                    message: (`${req.body.name} already exsists.`)
+                }});
     });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+  
 
 // ----------------------GET By Id----------------------
 
